@@ -1,0 +1,206 @@
+/* Home Page */
+body {
+    font-family: 'Arial', sans-serif;
+}
+.bg-primary-custom {
+    background-color: #004d40; /* Replace with your primary color */
+    color: white;
+}
+.text-secondary-custom {
+    color: #00acc1; /* Replace with your secondary color */
+}
+.section-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+.icon-large {
+    font-size: 3rem;
+}
+.ceo-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.social-icons i {
+    font-size: 1.5rem;
+    margin-right: 10px;
+    color: #004d40;
+}
+.social-icons i:hover {
+    color: #00acc1;
+}
+
+
+
+/* Card Styling */
+.card {
+    border: 1px solid #ddd !important;
+    border-radius: 8px !important;
+    margin: 1rem !important; /* Add consistent spacing between cards */
+    transition: all 0.3s ease-in-out;
+    background-color: #fff; /* White background for cards */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for better aesthetics */
+    width: 18rem; /* Fixed card width */
+    height: 22rem; /* Fixed card height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card:hover {
+    background-color: #ffe5e9; /* Light rose-red hover effect */
+    transform: translateY(-5px); /* Lift on hover */
+}
+
+/* Image Styling */
+.card-img-top {
+    width: 100%;
+    height: 180px; /* Fixed height for all images */
+    object-fit: cover; /* Maintain aspect ratio */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+/* Card Content */
+.card-body {
+    padding: 1rem !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-text {
+    font-size: 1rem;
+    font-weight: 500 !important;
+    line-height: 1.5;
+    color: #555; /* Neutral text color for readability */
+}
+
+/* Layout and Spacing */
+.row-cols-lg-3 .col {
+    display: flex;
+    margin-bottom: 2rem; /* Space between rows */
+}
+
+/* Hover Effects */
+.card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow on hover */
+}
+
+/* Navbar Styling */
+.nav-link {
+    position: relative;
+    font-size: 1.1rem;
+    color: #343a40; /* Neutral dark gray */
+    transition: color 0.3s;
+}
+.nav-link:hover {
+    color: #c2185b; /* Rose red for hover effect */
+}
+.nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 0;
+    height: 2px;
+    background-color: #c2185b; /* Rose red underline effect */
+    transition: width 0.3s;
+}
+.nav-link:hover::after {
+    width: 100%;
+}
+
+
+/*card buttons */
+.btn-icon {
+    padding: 0.2rem 0.4rem;
+    width: auto;
+  }
+  
+
+/* Navbar Brand */
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #c2185b; /* Rose red */
+    text-transform: uppercase;
+}
+.navbar-brand:hover {
+    color: #9c113e; /* Darker shade of rose red */
+}
+
+/* Footer Styling */
+.f-info {
+    height: 8rem;
+    background-color: #ffe5e9; /* Light rose-red background */
+    
+    text-align: center;
+    width: 100%;
+    padding: 2rem 0;
+}
+
+.f-info-links a {
+    text-decoration: none;
+    color: #c2185b; /* Rose red */
+}
+
+.f-info-links a:hover {
+    color: #9c113e; /* Darker rose red */
+    text-decoration: underline;
+}
+
+.f-info-socials i {
+    margin: 0 20px;
+    font-size: 1.6rem;
+    color: #c2185b; /* Rose red */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .card {
+        width: 100%; /* Full width on smaller screens */
+    }
+}
+
+
+
+/*About Styling  */
+
+body {
+    font-family: 'Arial', sans-serif;
+}
+.bg-primary-custom {
+    background-color: #004d40; /* Replace with your primary color */
+    color: white;
+}
+.text-secondary-custom {
+    color: #00acc1; /* Replace with your secondary color */
+}
+.section-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+.icon-large {
+    font-size: 3rem;
+}
+.ceo-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.social-icons i {
+    font-size: 1.5rem;
+    margin-right: 10px;
+    color: #004d40;
+}
+.social-icons i:hover {
+    color: #00acc1;
+}
+
+
+  

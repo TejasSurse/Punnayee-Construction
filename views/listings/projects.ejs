@@ -1,0 +1,31 @@
+<% layout('/layouts/boilerplate') -%>
+
+<div class="container">
+  <!-- Responsive grid for cards -->
+  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 g-4 mt-2 justify-content-center">
+    <% for (let project of projects) { %>
+      <div class="col d-flex justify-content-center">
+        <div class="card shadow-sm">
+          <!-- Image Section -->
+          <div class="image-container" style="max-height: 200px; overflow: hidden;">
+            <img 
+              class="card-img-top" 
+              src="data:image/jpeg;base64,<%= Buffer.from(project.image).toString('base64') %>" 
+              alt="Project Image" 
+              style="object-fit: cover; width: 100%; height: 200px;">
+          </div>
+          <!-- Card Body Section -->
+          <div class="card-body">
+            <!-- Display Title in Bold -->
+            <p class="card-text">
+              <b>Title:</b> <%= project.title %><br>
+              <b>Location:</b> <%= project.location %><br>
+              <b>Cost:</b> &#8377 <%= project.cost.toLocaleString("en-In") %><br>
+              <b>Size:</b> <%= project.size %> sq. meters
+            </p>
+          </div>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</div>
