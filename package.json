@@ -1,11 +1,13 @@
+// filepath: /D:/Code/Projects/Punnayee Construction/package.json
 {
-  "engines" : {
-    "node" : "20.14.0"
+  "engines": {
+    "node": "20.14.0"
   },
   "name": "punnayee-construction",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
