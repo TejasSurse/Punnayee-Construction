@@ -1,6 +1,6 @@
 {
-  "engine": {
-    "node": "22.12.0"
+  "engines" : {
+    "node" : "20.14.0"
   },
   "name": "punnayee-construction",
   "version": "1.0.0",
