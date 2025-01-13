@@ -14,18 +14,6 @@
                 placeholder="Enter project title" 
                 required>
         </div>
-        
-        <!-- Description Field -->
-        <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea 
-                class="form-control" 
-                id="description" 
-                name="description" 
-                rows="4" 
-                placeholder="Enter project description" 
-                required><%= project.description %></textarea>
-        </div>
 
         <!-- Location Field -->
         <div class="mb-3">
@@ -44,7 +32,7 @@
         <div class="mb-3">
             <label for="cost" class="form-label">Cost (₹)</label>
             <input 
-                type="number" 
+                type="text" 
                 class="form-control" 
                 id="cost" 
                 name="cost" 
