@@ -36,10 +36,6 @@ const conn = mysql.createConnection({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    port: 4000,
-    waitForConnections: process.env.DB_WAIT_FOR_CONNECTIONS === 'true',
-    connectionLimit: parseInt(process.env.DB_CONNECTION_LIMIT, 10),
-    queueLimit: parseInt(process.env.DB_QUEUE_LIMIT, 10),
     ssl: {
         rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED === 'true',
     },
@@ -180,6 +176,23 @@ app.post("/contact", async (req, res) => {
 app.get("/about", (req, res) => {
     res.render("listings/about");
 });
+
+app.get("/adminport", (req, res)=>{
+    res.render("listings/adminpannel");
+});
+
+app.get("/admin", (req, res) => {
+    const query = "SELECT * FROM Projects";
+    conn.query(query, (err, results) => {
+        if (err) {
+            console.error("Error fetching projects:", err);
+            return res.status(500).send("Database error");
+        }
+        res.render("listings/adminprojects", { projects: results });
+    });
+});
+
+
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
