@@ -8,7 +8,27 @@ const mysql = require("mysql2");
 const ejsMate = require("ejs-mate");
 const port = 3000;
 const multer = require('multer');
+const nodeMailer = require('nodemailer');
 
+// Transport Setup
+const transporter = nodeMailer.createTransport({
+    secure: true,
+    host: "smtp.gmail.com",
+    port: 465,
+    auth: {
+        user: "punnyaeeconstruction@gmail.com",
+        pass: "vgldszkavhiqpwxp"
+    }
+});
+
+function sendMail(to, sub, msg) {
+    return transporter.sendMail({
+        from: `"Punnyaee Construction" APP`,
+        to: to,
+        subject: sub,
+        html: msg,
+    });
+}
 
 // Database Connection 
 const conn = mysql.createConnection({
@@ -25,9 +45,6 @@ const conn = mysql.createConnection({
     },
 });
 
-
-
-
 conn.connect((err) => {
     if (err) {
         console.error('Error connecting to MySQL:', err.message);
@@ -35,7 +52,6 @@ conn.connect((err) => {
     }
     console.log('Connected to MySQL database!');
 });
-
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -48,24 +64,23 @@ app.use(express.static(path.join(__dirname, "/public")));
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// Home Route 
+// Routes
 app.get("/", (req, res) => {
     res.render("listings/index");
 });
 
-// project read 
+// Project routes
 app.get("/projects", (req, res) => {
     const query = "SELECT * FROM Projects";
     conn.query(query, (err, results) => {
         if (err) {
             console.error("Error fetching projects:", err);
-            return res.status(500).render("listings/error" , {error: "Something Went Wrong Please try again later"}); 
+            return res.render("listings/error", { error: "Something went wrong. Please try again later." });
         }
         res.render("listings/projects", { projects: results });
     });
 });
 
-// project upload - create route 
 app.get("/create", (req, res) => {
     res.render("listings/new");
 });
@@ -75,97 +90,96 @@ app.post("/create", upload.single('image'), (req, res) => {
     const image = req.file ? req.file.buffer : null;
 
     const query = `INSERT INTO Projects (title, image, cost, location, size) VALUES (?, ?, ?, ?, ?)`;
-    conn.query(query, [title, image, cost, location, size], (err, result) => {
+    conn.query(query, [title, image, cost, location, size], (err) => {
         if (err) {
             console.error("Error inserting project:", err);
-            res.status(500).send("Internal Server Error");
-            return;
+            return res.render("listings/error", { error: "Failed to create project. Please try again later." });
         }
-        res.redirect("/adminpannel");
+        res.render("listings/success", { message: "Project created successfully!" });
     });
 });
 
-app.get("/admin", (req, res) => {
-    const query = "SELECT * FROM Projects";
-    conn.query(query, (err, results) => {
-        if (err) {
-            console.error("Error fetching projects:", err);
-            return res.status(500).send("Database error");
-        }
-        res.render("listings/adminprojects", { projects: results });
-    });
-});
-
-// project delete 
 app.get("/delete/:id", (req, res) => {
     const query = "DELETE FROM Projects WHERE id = ?";
-    conn.query(query, [req.params.id], (err, result) => {
+    conn.query(query, [req.params.id], (err) => {
         if (err) {
             console.error("Error deleting project:", err);
-            return res.status(500).send("Database error");
+            return res.render("listings/error", { error: "Failed to delete project. Please try again later." });
         }
-        res.redirect("/admin");
+        res.render("listings/success", { message: "Project deleted successfully!" });
     });
 });
 
-// project edit 
 app.get("/edit/:id", (req, res) => {
     const query = "SELECT * FROM Projects WHERE id = ?";
     conn.query(query, [req.params.id], (err, result) => {
         if (err) {
             console.error("Error fetching project:", err);
-            return res.status(500).send("Database error");
+            return res.render("listings/error", { error: "Failed to fetch project. Please try again later." });
         }
         res.render("listings/editproject", { project: result[0] });
     });
 });
 
-// Update Route Project 
 app.post("/update/:id", upload.single('image'), (req, res) => {
     const { title, cost, location, size } = req.body;
     const image = req.file ? req.file.buffer : null;
 
-    // Validate form data
     if (!title || !cost || !location || !size) {
-        return res.status(400).send("All fields are required");
+        return res.render("listings/error", { error: "All fields are required." });
     }
 
     let query;
     let params;
 
     if (image) {
-        // If a new image is uploaded
         query = "UPDATE Projects SET title = ?, cost = ?, location = ?, size = ?, image = ? WHERE id = ?";
         params = [title, cost, location, size, image, req.params.id];
     } else {
-        // If no new image is uploaded
         query = "UPDATE Projects SET title = ?, cost = ?, location = ?, size = ? WHERE id = ?";
         params = [title, cost, location, size, req.params.id];
     }
 
-    conn.query(query, params, (err, result) => {
+    conn.query(query, params, (err) => {
         if (err) {
             console.error("Error updating project:", err);
-            return res.status(500).send("Database error");
+            return res.render("listings/error", { error: "Failed to update project. Please try again later." });
         }
-        res.redirect("/admin");
+        res.render("listings/success", { message: "Project updated successfully!" });
     });
 });
 
-// Contact Page 
+// Contact routes
 app.get("/contacts", (req, res) => {
-    res.render("listings/contact")
+    res.render("listings/contact");
+});
+
+app.post("/contact", async (req, res) => {
+    const { name, phone, email, subject, message } = req.body;
+
+    const emailContent = `
+      <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+        <h2>New Enquiry Received</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Subject:</strong> ${subject}</p>
+        <p><strong>Message:</strong> ${message}</p>
+      </div>
+    `;
+
+    try {
+        await sendMail("punnyaeeconstruction@gmail.com", "New Enquiry", emailContent);
+        res.render("listings/success", { message: "Enquiry submitted successfully!" });
+    } catch (error) {
+        console.error("Error sending email:", error);
+        res.render("listings/error", { error: "Failed to send enquiry. Please try again later." });
+    }
 });
 
 app.get("/about", (req, res) => {
     res.render("listings/about");
 });
-
-
-app.get("/adminpannel", (req, res) =>{
-    res.render("listings/adminpannel");
-});
-
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
