@@ -465,3 +465,35 @@ footer {
     padding: 1rem 0;
     position: relative; /* Default position */
 }
+
+
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%; /* Ensure the body and HTML cover the full viewport height */
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    flex: 1; /* Pushes the footer to the bottom when content is insufficient */
+}
+
+.footer {
+    background-color: #004d40; /* Custom footer background color */
+    color: white;
+    text-align: center;
+    padding: 1.5rem 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}

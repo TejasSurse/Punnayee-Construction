@@ -59,7 +59,7 @@ app.get("/projects", (req, res) => {
     conn.query(query, (err, results) => {
         if (err) {
             console.error("Error fetching projects:", err);
-            return res.status(500).send("Database error");
+            return res.status(500).render("listings/error" , {error: "Something Went Wrong Please try again later"}); 
         }
         res.render("listings/projects", { projects: results });
     });
