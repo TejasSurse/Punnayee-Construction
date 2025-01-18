@@ -16,7 +16,7 @@ const transporter = nodeMailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
     auth: {
-        user: "punnyaeeconstruction@gmail.com",
+        user: process.env.EMAIL_USER,
         pass: "vgldszkavhiqpwxp"
     }
 });
@@ -48,6 +48,35 @@ conn.connect((err) => {
     }
     console.log('Connected to MySQL database!');
 });
+
+
+
+
+
+// Middleware to check and re-establish database connection
+function checkDatabaseConnection(req, res, next) {
+    if (conn.state === 'disconnected') {
+        console.log('Database connection lost. Reconnecting...');
+        conn.connect((err) => {
+            if (err) {
+                console.error('Error reconnecting to MySQL:', err.message);
+                return res.render("listings/error", { error: "Database connection failed. Please try again later." });
+            }
+            console.log('Reconnected to MySQL database!');
+            next();
+        });
+    } else {
+        next();
+    }
+}
+
+// Use the middleware for all routes
+app.use(checkDatabaseConnection);
+
+
+
+
+
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
