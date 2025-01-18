@@ -177,7 +177,7 @@ app.get("/about", (req, res) => {
     res.render("listings/about");
 });
 
-app.get("/adminport", (req, res)=>{
+app.get("/adminpannel", (req, res)=>{
     res.render("listings/adminpannel");
 });
 
