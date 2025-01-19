@@ -16,7 +16,7 @@ const transporter = nodeMailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
     auth: {
-        user: process.env.EMAIL_USER,
+        user: "punnyaeeconstruction@gmail.com",
         pass: "vgldszkavhiqpwxp"
     }
 });
@@ -100,7 +100,7 @@ app.get("/projects", (req, res) => {
     conn.query(query, (err, results) => {
         if (err) {
             console.error("Error fetching projects:", err);
-            return res.render("listings/error", { error: err });
+            return res.render("listings/error", { error: "Something went wrong. Please try again" });
         }
         res.render("listings/projects", { projects: results });
     });
