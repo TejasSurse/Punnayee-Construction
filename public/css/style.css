@@ -441,8 +441,8 @@ body {
     background-color: #25D366;
     color: white;
     border-radius: 50%;
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -454,6 +454,7 @@ body {
     transform: scale(1); /* Default size */
     animation: bell-shake 2s infinite ease-in-out; /* Continuous bell animation */
     transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out;
+    font-size: 2rem;
 }
 
 .whatsapp-button.hidden {

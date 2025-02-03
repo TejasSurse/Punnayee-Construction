@@ -35,10 +35,10 @@ const pool = mysql.createPool({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     waitForConnections: true,
-    connectionLimit: 10, // Set the connection pool size
+    connectionLimit: 50, // Set the connection pool size
     queueLimit: 0,
     ssl: {
-        rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED === 'true',
+        rejectUnauthorized: false,
     },
 });
 
@@ -75,6 +75,7 @@ app.get("/", (req, res) => {
 
 // Fetch all projects
 app.get("/projects", async (req, res) => {
+    console.log("req. come");
     try {
         const [results] = await pool.query("SELECT * FROM Projects");
         res.render("listings/projects", { projects: results });
