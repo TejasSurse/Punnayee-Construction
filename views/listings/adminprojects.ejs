@@ -1,31 +1,281 @@
 <% layout('/layouts/boilerplate') -%>
-<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 row-cols-1 g-4 mt-2">
-  <% for (let project of projects) { %>
-    <div class="card col text-center shadow-sm" style="padding: 15px; border-radius: 10px; overflow: hidden; min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
-      <div class="image-container" style="margin-bottom: 15px;">
-        <img
-          class="card-img-top img-fluid"
-          style="border-radius: 10px; max-height: 200px; object-fit: cover;"
-          src="data:image/jpeg;base64,<%= Buffer.from(project.image).toString('base64') %>"
-          alt="Project Image"
-        />
-      </div>
-      <div class="card-body" style="text-align: center;">
-        <p class="card-text" style="margin-bottom: 15px; font-size: 14px;">
-          <b>Title:</b> <%= project.title %><br>
-          <b>Location:</b> <%= project.location %><br>
-          <b>Cost:</b> &#8377 <%= project.cost.toLocaleString("en-In") %><br>
-          <b>Size:</b> <%= project.size %> sq. ft
-        </p>
-        <div style="display: flex; justify-content: center; align-items: center; gap: 15px;">
-          <a href="/edit/<%= project.id %>" style="text-decoration: none; color: #000; font-size: 18px;">
-            <i class="fas fa-edit"></i>
-          </a>
-          <a href="/delete/<%= project.id %>" style="text-decoration: none; color: #000; font-size: 18px;">
-            <i class="fas fa-trash-alt"></i>
-          </a>
-        </div>
-      </div>
+
+<!-- Projects Section -->
+<section class="projects-section container py-5">
+    <div class="section-header">
+        <h2 class="section-title" data-aos="fade-down" data-aos-duration="1000">Our Projects</h2>
+        <a href="/create" class="new-project-btn" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+            <i class="fas fa-plus me-2"></i>New Project
+        </a>
     </div>
-  <% } %>
-</div>
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 row-cols-1 g-4 mt-2">
+        <% for (let project of projects) { %>
+            <div class="col d-flex justify-content-center">
+                <div class="project-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="image-container">
+                        <img 
+                            class="card-img-top" 
+                            src="data:image/jpeg;base64,<%= Buffer.from(project.image).toString('base64') %>" 
+                            alt="Project Image">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title"><%= project.title %></h5>
+                        <div class="card-details">
+                            <p><i class="fas fa-map-marker-alt me-2"></i><%= project.location %></p>
+                            <p><i class="fas fa-rupee-sign me-2"></i><%= project.cost.toLocaleString("en-IN") %></p>
+                            <p><i class="fas fa-ruler-combined me-2"></i><%= project.size %> sq. ft</p>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="/edit/<%= project.id %>" class="action-btn edit-btn" title="Edit Project">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="/delete/<%= project.id %>" class="action-btn delete-btn" title="Delete Project">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</section>
+
+<!-- Bootstrap and AOS JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+    AOS.init({
+        once: true,
+        offset: 100,
+        duration: 1000
+    });
+</script>
+
+<style>
+    :root {
+        --primary: #1a3c34; /* Deep teal */
+        --secondary: #f4a261; /* Warm orange */
+        --accent: #e76f51; /* Coral */
+        --light: #f8f9fa; /* Off-white */
+        --dark: #264653; /* Dark teal */
+        --gray: #6b7280; /* Neutral gray for text */
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: var(--light);
+        overflow-x: hidden;
+    }
+
+    .projects-section {
+        padding: 5rem 0;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 3rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        text-align: center;
+        color: var(--primary);
+        margin-bottom: 0;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .new-project-btn {
+        background: linear-gradient(135deg, var(--primary), #2a5a4e);
+        color: var(--light);
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .new-project-btn:hover {
+        background: linear-gradient(135deg, #2a5a4e, var(--primary));
+        transform: translateY(-2px);
+    }
+
+    .project-card {
+        background: var(--light);
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .project-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .image-container {
+        max-height: 220px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .card-img-top {
+        object-fit: cover;
+        width: 100%;
+        height: 220px;
+        border-radius: 12px 12px 0 0;
+        transition: filter 0.3s ease;
+    }
+
+    .project-card:hover .card-img-top {
+        filter: brightness(0.9);
+    }
+
+    .card-body {
+        padding: 1.5rem;
+        text-align: center;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--dark);
+        margin-bottom: 1rem;
+    }
+
+    .card-details {
+        font-size: 0.9rem;
+        color: var(--gray);
+        margin-bottom: 1.5rem;
+    }
+
+    .card-details p {
+        margin: 0.5rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .card-details i {
+        color: var(--accent);
+        font-size: 1rem;
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .action-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .edit-btn {
+        background-color: var(--secondary);
+        color: var(--light);
+    }
+
+    .edit-btn:hover {
+        background-color: #e69138;
+        transform: scale(1.1);
+    }
+
+    .delete-btn {
+        background-color: var(--accent);
+        color: var(--light);
+    }
+
+    .delete-btn:hover {
+        background-color: #d65f41;
+        transform: scale(1.1);
+    }
+
+    .action-btn i {
+        font-size: 1.2rem;
+    }
+
+    @media (max-width: 768px) {
+        .section-title {
+            font-size: 2rem;
+        }
+
+        .project-card {
+            max-width: 100%;
+        }
+
+        .image-container {
+            max-height: 200px;
+        }
+
+        .card-img-top {
+            height: 200px;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+        }
+
+        .card-details p {
+            font-size: 0.85rem;
+        }
+
+        .new-project-btn {
+            padding: 0.65rem 1.25rem;
+            font-size: 0.9rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .card-body {
+            padding: 1rem;
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+        }
+
+        .action-btn i {
+            font-size: 1.1rem;
+        }
+
+        .section-header {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .new-project-btn {
+            width: 100%;
+            max-width: 200px;
+        }
+    }
+</style>
